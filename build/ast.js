@@ -129,6 +129,11 @@ export class Renderable {
             }
         let me = this;
         let statements = "";
+        if (me.source) {
+            statements = this._renderStatements("source", [me.source], config?.defaultGetter || "getValue");
+        }
+        template = template.replaceAll(`##SOURCE##`, statements);
+        statements = "";
         if (me.triggers) {
             let triggers = me.triggers.split(",");
             statements = this._renderStatements("trigger", triggers, me.action || config?.defaultAction || "refresh");
@@ -251,6 +256,10 @@ export class RenderWidget {
         if (!template)
             return "-- error -- missing template";
         // mark the local and setup scopes, make them unique for this scope
+        // let lsp = `{ /* [[${scope}]] */ }`
+        // let lsp = `{ /* [[local]] */ }`
+        // console.log("scope", scope)
+        // let sup = `/* [[setup]] */`
         let lsp = `[[${scope}]]`;
         let sup = `[[setup]]`;
         let level = ".";

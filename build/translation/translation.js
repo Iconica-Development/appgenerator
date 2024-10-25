@@ -94,6 +94,7 @@ export class Translation {
             }
             else {
                 traceWriter.info(`Retrieving template from map for scope ${scope}`, TraceWriter.AREA_CODEGENERATION);
+                console.log("retrieving template from map for classname", scope);
                 let template = m.translationmap.get(`${classname}${scope ? '_' + scope : ''}`)?.template;
                 return template;
             }

@@ -1,32 +1,61 @@
 app:
-  target: react
-  title: Car Selector
-  subtitle: john
-  color: red
+  target: flutter
+  title: Flutter Map
   children:
-    - apidatasource:
+    - bar_chart_api_data_source:
         id: '1'
-        url: http://localhost:1337/cars
-        mapping: title:make,subtitle:model,image:image
-    - drawer:
-        autohide: false
-        drawer:
-          - draweritem: 
-              id: '1'
-              title: 'hello world 1'
-              children:
-                - list:
-                    source: '1'
-                    id: '3'
-                    triggers: '1'
-          - draweritem: 
-              id: '2'
-              title: 'hello world 2'
-              children: 
-                - detail:
-                    emptylabel: leeg
-                    source: '1'
-          - draweritem:
-              id: '3'
-              title: 'hello world 3' 
+        url: http://localhost:1337/rain
+    - map_marker_api_data_source:
+        id: '2'
+        url: http://localhost:1337/weather-stations
+    - data_mapper:
+        title: title
+        mappings:
+          - attribute_mapping:
+              name: title
+              attribute: title
+          - attribute_mapping:
+              name: longitude
+              attribute: longitude
+          - attribute_mapping:
+              name: latitude
+              attribute: latitude
+          - attribute_mapping:
+              name: subtitle
+              attribute: weatherData[0].actualRainfallMM
+            # mapping: title:title,longitude:longitude,latitude:latitude,subtitle:watherData[]
+    - map: 
+        id: '3'
+        source: '2'
+        triggers: '1'
+        tileUrl: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+    - range_slider:
+        id: '4'
+        min: 0
+        max: 200
+        triggers: "2"
+        action: "updateFilter"
+    - bar_chart:
+        source: '1'
+    - label:
+        label: "Rainfall"
+    # - row:
+    #     children:
+    #       - map:
+    #           id: '3'
+    #           source: '2'
+    #           triggers: '1'
+    #           tileUrl: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+    #       - column:
+    #           children:
+    #           - range_slider:
+    #               id: '4'
+    #               min: 0
+    #               max: 200
+    #               triggers: "2"
+    #               action: "updateFilter"
+    #           - bar_chart:
+    #               source: '1'
+    #           - label:
+    #               label: "Rainfall"
        

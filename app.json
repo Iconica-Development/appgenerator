@@ -1,22 +1,60 @@
 {
-  "app":{
-      "target":"react",
-      "title":"Joey",
-      "subtitle":"john",
-      "color":"red",
-      "children": [
-        { "apidatasource" : { "id":"1", "url":"http://localhost:1337/cars", "mapping": "title:make,subtitle:model,image:image"  } },
-          { "drawer": { 
-            "drawer": [
-              { "detail" : { "emptylabel":"leeg", "source":"1" } }
-            ],
-            "children": [
-              { "list": { "source":"1", "id":"3", "triggers":"1"}
+    "app": {
+        "target": "flutter",
+        "title": "Flutter Map",
+        "children": [
+            {
+                "bar_chart_api_data_source": {
+                    "id": "1",
+                    "url": "http://localhost:1337/rain"
+                }
+            },
+            {
+                "map_marker_api_data_source": {
+                    "id": "2",
+                    "url": "http://localhost:1337/weather-stations",
+                    "mapping": "title:title,longitude:longitude,latitude:latitude"
+                }
+            },
+            {
+                "row": {
+                    "children": [
+                        {
+                            "map": {
+                                "id": "3",
+                                "source": "2",
+                                "triggers": "1",
+                                "tileUrl": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            }
+                        },
+                        {
+                            "range_slider": {
+                                "id": "4",
+                                "min": 0,
+                                "max": 200,
+                                "triggers": "2",
+                                "action": "updateFilter"
+                            }
+                        },
+                        {
+                            "column": {
+                                "children": [
+                                    {
+                                        "bar_chart": {
+                                            "source": "1"
+                                        }
+                                    },
+                                    {
+                                        "label": {
+                                            "label": "Risk of flooding"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
             }
-          ]
-          }
-        }
-      ]
-  }
+        ]
+    }
 }
-

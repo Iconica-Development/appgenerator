@@ -67,7 +67,6 @@ export class Translation {
     async getTemplate(classname:String, scope?:String|undefined) {
         let extension = this.#target == "flutter" ? "dart" : "js";
         traceWriter.info(`Trying to retrieve template "./translation/${this.#target}/${classname}.${extension}"`, TraceWriter.AREA_CODEGENERATION)   
-
         if (fs.existsSync(`./translation/${this.#target}/${classname}.${extension}`)) {
             // read template from template file
             let data = fs.readFileSync(`./translation/${this.#target}/${classname}.${extension}`, 'utf8');
@@ -94,7 +93,8 @@ export class Translation {
                     return Promise.resolve(data);
                 }
             } else {
-                traceWriter.info(`Retrieving template from map for scope ${scope}`, TraceWriter.AREA_CODEGENERATION)   
+                traceWriter.info(`Retrieving template from map for scope ${scope}`, TraceWriter.AREA_CODEGENERATION)
+                console.log("retrieving template from map for classname", scope)   
                 let template =  m.translationmap.get(`${classname}${scope ? '_' + scope : ''}`)?.template;
                 return template
             }

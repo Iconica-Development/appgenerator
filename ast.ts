@@ -158,6 +158,12 @@ export class Renderable implements IRenderable {
 
         let me:any = this;
         let statements = "";
+        if (me.source) {
+            statements = this._renderStatements("source", [me.source], config?.defaultGetter || "getValue");
+        }
+        template = template.replaceAll(`##SOURCE##`, statements)
+        
+        statements = "";
         if (me.triggers) {
             let triggers = me.triggers.split(",")
             statements = this._renderStatements("trigger", triggers, me.action || config?.defaultAction || "refresh")
@@ -213,7 +219,7 @@ export class RenderWidget {
         let classname = Object.keys(o)[0];
         traceWriter.info("Creating object from JSON for " + classname, TraceWriter.AREA_TREEBUILDING)
         let target = Object.values(o)[0];
-        let ctor = RenderWidget.generateClass(classname); 
+        let ctor = RenderWidget.generateClass(classname);
         if (!ctor) ctor = Renderable;
         let tree =  ctor ? new ctor(target.id, target) as IRenderable : null
         return tree;
@@ -288,6 +294,10 @@ export class RenderWidget {
             if (!template) return "-- error -- missing template"
 
             // mark the local and setup scopes, make them unique for this scope
+            // let lsp = `{ /* [[${scope}]] */ }`
+            // let lsp = `{ /* [[local]] */ }`
+            // console.log("scope", scope)
+            // let sup = `/* [[setup]] */`
             let lsp = `[[${scope}]]`
             let sup = `[[setup]]`
 
